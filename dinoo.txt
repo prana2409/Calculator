@@ -1,0 +1,62 @@
+public static void main(String[] args) throws IOException {
+		double g = 9.8;
+		HashMap<String, String> map = new HashMap();
+		try {
+		FileReader fr = new FileReader("C:\\Users\\kulka\\Desktop\\aaa.csv");
+		BufferedReader br = new BufferedReader(fr);
+		ArrayList<String> name = new ArrayList<String>();
+		ArrayList<String> Stride = new ArrayList<String>();
+		ArrayList<String> Stance = new ArrayList<String>();
+		String line = null;
+		while((line=br.readLine()) !=null) {
+			if(line.contains("Name")) {
+				continue;
+			}
+			String[] lineArray = line.split(",");
+			name.add(lineArray[0]);
+			Stride.add(lineArray[1]);
+			Stance.add(lineArray[2]);
+			if (lineArray[2].equals("Bipedal")) { 
+				map.put(lineArray[0], lineArray[1]);
+			}
+			}
+			System.out.println(map);
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("Exception");
+		}
+		try {
+			FileReader fr2 = new FileReader("C:\\Users\\kulka\\Desktop\\aaa2.csv");
+			BufferedReader br2 = new BufferedReader(fr2);
+			ArrayList<String> name1 = new ArrayList<String>();
+			ArrayList<String> Leg = new ArrayList<String>();
+			ArrayList<String> Diet = new ArrayList<String>();
+			String line2 = null;
+			while((line2=br2.readLine()) !=null) {
+				if(line2.contains("Name")) {
+					continue;
+				}
+				String[] lineArray2 = line2.split(",");
+				name1.add(lineArray2[0]);
+				Leg.add(lineArray2[1]);
+				Diet.add(lineArray2[2]);
+				for (Map.Entry<String, String> entry : map.entrySet()) {
+					if(lineArray2[0].equals(entry.getKey())) {
+						double sl = Double.parseDouble(map.get(lineArray2[0]));
+						double ll= Double.parseDouble(lineArray2[1]);
+						String val = Double.toString((sl/ll)*Math.sqrt(ll*g));
+						map.put(lineArray2[0], val);
+//						Collections.sort((List<T>) map);
+						TreeMap<String, String> sorted = new TreeMap<>(map);
+						Set<Map.Entry<String, String>> mappings = sorted.entrySet();
+						for (Map.Entry<String, String> mapp : mappings) {
+							System.out.println(mappings);
+							}
+						}
+				}
+			}
+			
+		}
+			catch(FileNotFoundException e) {
+				System.out.println("Exception");
+			}
